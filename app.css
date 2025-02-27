@@ -1,0 +1,2220 @@
+:root {
+    --bg-gradient: linear-gradient(135deg, #1E1E1E 0%, #2C2C2C 100%);
+    --accent-color: #00FF9D;
+    --text-primary: #FFFFFF;
+    --text-secondary: rgba(255, 255, 255, 0.7);
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.05); /* Added glass border variable */
+    --message-user: linear-gradient(135deg, #2C2C2C 0%, #3D3D3D 100%);
+    --message-bot: rgba(0, 255, 157, 0.1);
+    --status-dot-active: #4CAF50;
+    --status-dot-inactive: #f44336; /* Example inactive color */
+    --code-bg: #1e1e1e;
+    --code-header-bg: #2d2d2d;
+    --code-text: #d4d4d4;
+    --code-copy-button-bg: #404040;
+    --code-copy-button-hover-bg: #505050;
+    --option-button-border: var(--accent-color);
+    --option-button-hover-bg: rgba(0, 255, 157, 0.1);
+    --option-button-active-shadow: 0 0 20px rgba(0, 255, 157, 0.2);
+
+    /* Nuevas variables de color para botones "Sí" y "No" */
+    --color-yes-green: #4CAF50; /* Verde claro */
+    --color-yes-green-darker: #388E3C; /* Verde oscuro para borde */
+    --color-no-red: #F44336; /* Rojo claro */
+    --color-no-red-darker: #D32F2F; /* Rojo oscuro para borde */
+
+    /* Colores por sucursal */
+    --santiago-color: #FF4B4B;
+    --serena-color: #4BB4FF;
+    --copiapo-color: #FFD700;
+    --rengo-color: #FFFFFF;
+    --andes-color: #A5F2F3;
+    --felipe-color: #808080;
+    --vallenar-color: #FFB6C1;
+
+    /* Nuevas variables de animación */
+    --animation-duration: 0.4s;
+    --easing-bounce: cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    --easing-smooth: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+body, html {
+    overflow: hidden !important;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background: #1a1a1a;
+    color: var(--text-primary);
+    height: 100vh;
+    -webkit-tap-highlight-color: transparent;
+    display: flex;
+    flex-direction: column;
+    overscroll-behavior: contain;
+}
+
+.app-container {
+    position: relative;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(45deg, #1a1a1a, #2d2d2d, #3d3d3d);
+    background-size: 400% 400%;
+    animation: gradientFlow 20s ease infinite;
+    overflow: hidden !important;
+    min-height: 100vh;
+    height: 100vh;
+    -webkit-overflow-scrolling: touch;
+    touch-action: none;
+    transition: background 1s ease-in-out;
+}
+
+@keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Background Overlays for Cities - Optimized with SVG Patterns */
+.app-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    opacity: 0.15;
+    transition: background-image 0.5s ease; /* Transition for background image */
+    z-index: 0;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    pointer-events: none; /* Make sure it doesn't interfere with clicks */
+}
+
+/* Santiago - Trenes en movimiento sobre fondo rojo */
+.app-container.santiago::before {
+    background:
+        linear-gradient(160deg, #b71c1c 0%, #d32f2f 100%),
+        repeating-linear-gradient(
+            -45deg,
+            transparent,
+            transparent 25px,
+            rgba(255, 255, 255, 0.1) 25px,
+            rgba(255, 255, 255, 0.1) 50px
+        );
+    animation: moveTrain 20s linear infinite;
+}
+
+@keyframes moveTrain {
+    0% { background-position: 0 0, 0 0; }
+    100% { background-position: 100% 0, 200px 0; }
+}
+
+/* La Serena - Ecosistema acuático */
+.app-container.serena {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(180deg, #1a2f38 0%, #1a3d47 100%);
+    z-index: 1;
+    perspective: 1000px;
+}
+
+.app-container.serena::before {
+    background-image: 
+        url("https://jumpseller.s3.eu-west-1.amazonaws.com/store/don-balato-mayorista/assets/Polish_20250216_034137613.png?1739688397"),
+        linear-gradient(
+            to bottom,
+            rgba(0, 100, 150, 0.3) 0%,
+            transparent 50%,
+            rgba(0, 50, 100, 0.3) 100%
+        );
+    background-size: cover, auto;
+    animation: waterEffect 25s ease-in-out infinite;
+    opacity: 0.9;
+}
+
+@keyframes waterEffect {
+    0%, 100% {
+        background-position: 0 100%;
+        opacity: 0.4;
+    }
+    50% {
+        background-position: 0 0;
+        opacity: 0.6;
+    }
+}
+
+/* Burbujas */
+.bubble {
+    position: fixed;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    animation: float 8s var(--easing-smooth) infinite;
+    z-index: 1; /* Encima del fondo pero detrás del contenido */
+    pointer-events: none;
+}
+
+/* Añadir más burbujas con diferentes tamaños y velocidades */
+.bubble:nth-child(1) { width: 12px; height: 12px; left: 10%; animation-duration: 6s; }
+.bubble:nth-child(2) { width: 8px; height: 8px; left: 30%; animation-duration: 5s; }
+.bubble:nth-child(3) { width: 15px; height: 15px; left: 50%; animation-duration: 7s; }
+.bubble:nth-child(4) { width: 10px; height: 10px; left: 70%; animation-duration: 6.5s; }
+.bubble:nth-child(5) { width: 12px; height: 12px; left: 90%; animation-duration: 5.5s; }
+
+@keyframes float {
+    0% {
+        transform: translateY(100vh) scale(0.8) rotate(0deg);
+    }
+    100% {
+        transform: translateY(-100vh) scale(1.2) rotate(360deg);
+    }
+}
+
+/* Animación peces nadando */
+.fish {
+    position: absolute;
+    width: 80px;
+    height: 40px;
+    z-index: 3; /* Debe estar sobre el contenido pero debajo del chat */
+    opacity: 0.8;
+    transition: transform 0.3s ease;
+    background-image: url('https://jumpseller.s3.eu-west-1.amazonaws.com/store/don-balato-mayorista/assets/pngwing.com.png?1739689042');
+    background-size: contain;
+    background-repeat: no-repeat;
+    filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.2));
+    transform-origin: center;
+    pointer-events: none !important; /* Asegurar que no intercepten clics */
+}
+
+@keyframes fishSwim {
+    0% {
+        transform: translateX(-10vw) scaleX(1);
+    }
+    100% {
+        transform: translateX(110vw) scaleX(1);
+    }
+}
+
+@keyframes fishWobble {
+    0%, 100% {
+        transform: translateY(0) rotate(3deg);
+    }
+    50% {
+        transform: translateY(-15px) rotate(-3deg);
+    }
+}
+
+/* Movimiento de algas */
+@keyframes seaweedMove {
+    0%, 100% { transform: skewX(2deg); }
+    50% { transform: skewX(-2deg); }
+}
+
+/* Nuevos elementos flotantes */
+.app-container.serena::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+        circle at 50% 50%,
+        rgba(255, 255, 255, 0.1) 0%,
+        transparent 60%
+    );
+    animation: lightSweep 15s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes lightSweep {
+    0%, 100% {
+        transform: rotate(0deg) translateX(-50%);
+    }
+    50% {
+        transform: rotate(180deg) translateX(50%);
+    }
+}
+
+/* Medusas flotantes */
+@keyframes jellyfishFloat {
+    0%, 100% { transform: translateY(0) rotate(2deg); }
+    50% { transform: translateY(-20px) rotate(-2deg); }
+}
+
+/* Peces adicionales con movimiento aleatorio */
+.app-container.serena .fish {
+    display: none !important;
+}
+
+/* Copiapó - Sol giratorio sobre arena */
+.app-container.copiapo::before {
+    background: linear-gradient(180deg, #ffd54f 0%, #ffb300 100%);
+}
+
+.app-container.copiapo::after {
+    content: '';
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    background: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='50' cy='50' r='40' fill='%23FFEB3B'/%3E%3C/svg%3E");
+    animation: sunSpin 20s linear infinite;
+}
+
+@keyframes sunSpin {
+    from { transform: rotate(0deg) translateX(150px) rotate(0deg); }
+    to { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
+}
+
+/* Rengo - Uvas cayendo */
+.app-container.rengo::before {
+    background: linear-gradient(180deg, #f5f5f5 0%, #e0e0e0 100%);
+}
+
+.app-container.rengo::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='15' cy='15' r='5' fill='%236a1b9a'/%3E%3C/svg%3E");
+    background-size: 30px;
+    animation: grapeFall 10s linear infinite;
+}
+
+@keyframes grapeFall {
+    0% { background-position: 0 -100%; }
+    100% { background-position: 0 100%; }
+}
+
+/* Los Andes - Montañas nevadas animadas */
+.app-container.andes::before {
+    background: linear-gradient(180deg, #e3f2fd 0%, #bbdefb 100%);
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 70 L20 40 L40 70 L60 30 L80 70 L100 40 L100 100 L0 100' fill='white'/%3E%3C/svg%3E");
+    mask-size: 200% 100%;
+    animation: mountainFlow 15s linear infinite;
+}
+
+@keyframes mountainFlow {
+    0% { mask-position: 0 0; }
+    100% { mask-position: 100% 0; }
+}
+
+/* San Felipe - Herramientas agrícolas flotantes */
+.app-container.felipe::before {
+    background: linear-gradient(180deg, #9e9e9e 0%, #616161 100%);
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 70 L50 30 L70 70' fill='none' stroke='%23757575' stroke-width='2'/%3E%3Crect x='45' y='60' width='10' height='20' fill='%23555555'/%3E%3C/svg%3E");
+    background-size: 80px;
+    animation: toolFloat 8s ease-in-out infinite;
+}
+
+@keyframes toolFloat {
+    0%, 100% { background-position: 10% 50%; }
+    50% { background-position: 90% 50%; }
+}
+
+/* Vallenar - Picos mineros brillantes */
+.app-container.vallenar::before {
+    background: linear-gradient(180deg, #f48fb1 0%, #d81b60 100%);
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M50 0 L100 50 L75 75 L50 50 L25 75 L0 50 Z' fill='white'/%3E%3C/svg%3E");
+    mask-size: 200% 200%;
+    animation: mineGlow 10s linear infinite;
+}
+
+@keyframes mineGlow {
+    0% { mask-position: 0 0; opacity: 0.8; }
+    100% { mask-position: 100% 100%; opacity: 0.2; }
+}
+
+.app-container > * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Header Styles */
+.app-header {
+    padding: 1rem; /* Use rem for better scaling */
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--glass-border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.header-content {
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* Use rem for better scaling */
+}
+
+.header-text h1 {
+    margin: 0;
+    font-size: 1.5rem; /* Use rem for better scaling */
+    font-weight: 600;
+    color: var(--text-primary);
+    animation: fadeIn 1s ease-out;
+}
+
+/* Bot Avatar Styles */
+.bot-avatar {
+    width: 45px;
+    height: 45px;
+    position: relative;
+    background: #2C2C2C;
+    border-radius: 12px;
+    padding: 3px;
+    flex-shrink: 0; /* Prevent avatar from shrinking */
+    overflow: hidden;
+    margin: 15px;
+    box-shadow: 0 0 20px rgba(0, 255, 157, 0.2);
+}
+
+.bot-face {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    background: #3D3D3D;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.bot-eyes {
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.eye {
+    width: 8px;
+    height: 8px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    animation: blink 3s infinite;
+}
+
+.bot-antenna {
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 4px;
+    height: 10px;
+    background: var(--accent-color);
+    border-radius: 2px;
+    animation: swing 2s infinite ease-in-out;
+}
+
+.bot-antenna::after {
+    content: '';
+    position: absolute;
+    top: -3px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 6px;
+    height: 6px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+/* Status Indicator */
+.status {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; /* Use rem for better scaling */
+}
+
+.status-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--status-dot-active); /* Default active color */
+    border-radius: 50%;
+    animation: pulseDot 1.5s infinite ease-in-out;
+}
+
+/* Example of inactive status - you might control this with JS */
+.status.inactive .status-dot {
+    background: var(--status-dot-inactive);
+    animation: none; /* Stop blinking when inactive */
+}
+
+.status span {
+    color: var(--text-secondary);
+    font-size: 0.875rem; /* Use rem for better scaling */
+}
+
+
+/* Chat Messages Area */
+.chat-messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.welcome-message {
+    position: relative;
+    z-index: 4;
+    animation: fadeIn 0.5s ease-out;
+    text-align: center;
+    padding: 20px 0;
+    height: 100vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Welcome Robot Animation */
+.welcome-robot {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto 1.25rem; /* Use rem for better scaling */
+    position: relative;
+    animation: float 4s infinite ease-in-out;
+}
+
+.robot-body {
+    width: 80px;
+    height: 100px;
+    background: #2C2C2C;
+    border-radius: 20px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 0;
+    overflow: hidden;
+}
+
+.robot-head {
+    width: 60px;
+    height: 60px;
+    background: #3D3D3D;
+    border-radius: 15px;
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.robot-eyes {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 70%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.robot-eyes .eye {
+    width: 12px;
+    height: 12px;
+    background: var(--accent-color);
+    border-radius: 50%;
+    animation: blink 3s infinite;
+}
+
+.robot-mouth {
+    position: absolute;
+    bottom: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 3px;
+    background: var(--accent-color);
+    border-radius: 2px;
+    animation: talk 1s infinite;
+}
+
+
+.welcome-message h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-shadow: 0 3px 10px rgba(0,255,157,0.3);
+    background: linear-gradient(45deg, #00FF9D, #00E6FF);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.welcome-message p {
+    margin: 0 0 1.5rem 0; /* Use rem for better scaling */
+    color: var(--text-secondary);
+}
+
+/* Branch Selector Styles */
+.branch-selector {
+    text-align: center;
+    padding: 0 1rem; /* Use rem for better scaling */
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 100px; /* Espacio para evitar corte */
+    margin-top: 2rem; /* Mueve las sucursales más abajo */
+    animation: slideIn 1s ease-out 0.5s;
+    z-index: 5;
+}
+
+.branch-selector h3 {
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    letter-spacing: 1px;
+    position: relative;
+    display: inline-block;
+    padding-bottom: 0.5rem;
+}
+
+.branch-selector h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00FF9D, transparent);
+}
+
+.branch-options {
+    perspective: 1000px;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem; /* Use rem for better scaling */
+}
+
+.branch-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+    color: var(--text-primary);
+    font-size: 1rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.branch-button:hover {
+    background: rgba(0, 255, 157, 0.2);
+    border-color: var(--accent-color);
+    transform: none;
+    box-shadow: 0 4px 15px rgba(0, 255, 157, 0.3);
+}
+
+/* Ripple Effect */
+.branch-button::after {
+    content: '';
+    position: absolute;
+    width: 300%;
+    height: 300%;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 0.5s, opacity 0.5s;
+    opacity: 0;
+}
+
+.branch-button:active::after {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+    transition: 0s;
+}
+
+/* Branch Button Specific Styles */
+.branch-button.santiago {
+    border-color: #FF4B4B;
+}
+
+.branch-button.serena {
+    border-color: #4BB4FF;
+}
+
+.branch-button.copiapo {
+    border-color: #D4A76A;
+}
+
+.branch-button.rengo {
+    border-color: #FFFFFF;
+}
+
+.branch-button.andes {
+    border-color: #A5F2F3;
+}
+
+.branch-button.felipe {
+    border-color: #808080;
+}
+
+.branch-button.vallenar {
+    border-color: #FFB6C1;
+}
+
+/* Branch Button Icon Styling */
+.branch-button span {
+    font-size: 1.5rem; /* Use rem for better scaling */
+    min-width: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    filter: drop-shadow(0 0 5px rgba(255,255,255,0.3));
+    transition: all 0.3s ease;
+}
+
+.branch-button:hover {
+    transform: none;
+    box-shadow: 0 4px 15px rgba(0, 255, 157, 0.3);
+}
+
+.branch-button::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--accent-color);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.branch-button:active {
+    transform: translateY(0) scale(0.98);
+}
+
+
+/* Input Area Styles */
+.input-area {
+    padding: 15px;
+    z-index: 199;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.02); /* Fondo casi invisible 👻 */
+    backdrop-filter: blur(10px); /* Efecto glass 🪞 */
+    border-top: 1px solid rgba(255, 255, 255, 0.05); /* Borde superior casi invisible */
+}
+
+.input-wrapper {
+    display: flex;
+    align-items: center;
+    background: rgba(255, 255, 255, 0.02); /* Fondo del input casi invisible 👻 */
+    backdrop-filter: blur(10px); /* Efecto glass para el input 🪞 */
+    border-radius: 12px;
+    padding: 5px 10px;
+    margin-bottom: 10px;
+    width: 100%;
+    min-height: 55px;
+    border: 1px solid rgba(255, 255, 255, 0.05); /* Borde del input casi invisible */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03); /* Sombra muy suave para el input */
+    z-index: 200;
+    position: relative;
+}
+
+.input-wrapper input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 1.1rem;
+    padding: 10px 15px;
+    width: calc(100% - 60px);
+    height: 45px;
+    outline: none;
+    z-index: 201;
+    position: relative;
+}
+
+.input-wrapper input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.input-actions {
+    display: none !important;
+}
+
+.action-button {
+    display: none;
+}
+
+.send-button {
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, #00A0FF, #0060FF);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    cursor: pointer;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 4px 10px rgba(0, 120, 255, 0.4);
+    position: relative;
+    z-index: 202;
+    flex-shrink: 0;
+}
+
+.send-button::before {
+    content: '→';
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.send-button:hover {
+    background: linear-gradient(135deg, #00C0FF, #0070FF);
+    transform: scale(1.1);
+    box-shadow: 0 5px 15px rgba(0, 140, 255, 0.5);
+}
+
+.send-button:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 8px rgba(0, 100, 255, 0.3);
+}
+
+/* Ripple Animation */
+.ripple {
+    position: relative;
+    overflow: hidden;
+}
+
+.ripple::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    transform: scale(0);
+    animation: rippleEffect 0.6s linear;
+    opacity: 1;
+}
+
+@keyframes rippleEffect {
+    to {
+        transform: scale(4);
+        opacity: 0;
+    }
+}
+
+/* Slide Up Animation */
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+
+/* Message Styles */
+.message {
+    max-width: 80%;
+    padding: 1rem;
+    border-radius: 12px;
+    margin: 0.5rem 0;
+    font-size: 1rem; /* Use rem for better scaling */
+    line-height: 1.4;
+    animation: messageSlideIn 0.3s var(--easing-smooth) both;
+    word-break: break-word;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.message:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(0,255,157,0.1);
+}
+
+.user-message {
+    margin-left: auto;
+    background: linear-gradient(135deg, rgba(50, 120, 190, 0.5), rgba(30, 90, 170, 0.6));
+    color: white;
+    border-radius: 1rem 1rem 0.25rem 1rem;
+    border: 1px solid rgba(70, 140, 220, 0.5);
+    box-shadow: 0 3px 10px rgba(40, 100, 160, 0.2);
+    position: relative;
+}
+
+.user-message::before {
+    content: 'Tú';
+    position: absolute;
+    top: -20px;
+    right: 10px;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(70, 140, 220, 0.5);
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+.user-message p {
+    color: rgba(255, 255, 255, 0.98);
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.bot-message {
+    margin-right: auto;
+    background: linear-gradient(135deg, rgba(35, 90, 150, 0.35), rgba(20, 70, 130, 0.45));
+    color: white;
+    border-radius: 1rem 1rem 1rem 0.25rem;
+    border: 1px solid rgba(50, 110, 170, 0.35);
+    box-shadow: 0 3px 10px rgba(30, 90, 150, 0.15);
+    align-self: flex-start;
+    position: relative;
+}
+
+.bot-message::before {
+    content: 'Bot';
+    position: absolute;
+    top: -20px;
+    left: 10px;
+    font-size: 0.75rem;
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(35, 90, 150, 0.45);
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-weight: 500;
+}
+
+/* Message Options Styles */
+.bot-message .gender-options,
+.bot-message .confirm-options {
+    background: linear-gradient(135deg, rgba(35, 90, 150, 0.4), rgba(20, 70, 130, 0.5));
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    margin-top: 0.75rem;
+    border: 1px solid rgba(50, 110, 170, 0.4);
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    box-shadow: 0 3px 8px rgba(30, 90, 150, 0.2);
+}
+
+
+/* Code Block Styles */
+.code-wrapper {
+    background: var(--code-bg);
+    border-radius: 0.5rem; /* Use rem for better scaling */
+    margin: 0.5rem 0; /* Use rem for better scaling */
+    overflow: hidden;
+    width: 100%;
+}
+
+.code-header {
+    background: var(--code-header-bg);
+    padding: 0.5rem; /* Use rem for better scaling */
+    display: flex;
+    justify-content: flex-end;
+}
+
+.copy-button {
+    background: var(--code-copy-button-bg);
+    color: var(--code-text);
+    border: none;
+    padding: 0.25rem 0.75rem; /* Use rem for better scaling */
+    border-radius: 0.25rem; /* Use rem for better scaling */
+    cursor: pointer;
+    font-size: 0.875rem; /* Use rem for better scaling */
+    transition: background 0.3s;
+}
+
+.copy-button:hover {
+    background: var(--code-copy-button-hover-bg);
+}
+
+.code-wrapper pre {
+    margin: 0;
+    padding: 0.75rem; /* Use rem for better scaling */
+    overflow-x: auto;
+    max-width: 100%;
+    -webkit-overflow-scrolling: touch; /* Enable smooth scrolling on iOS */
+}
+
+.code-wrapper code {
+    font-family: 'Consolas', 'Monaco', monospace;
+    color: var(--code-text);
+    font-size: 0.875rem; /* Use rem for better scaling */
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-break: break-word;
+    display: block; /* Ensure code block takes full width */
+}
+
+
+/* Styles for Selection Options (Gender/Confirmation Buttons) */
+.gender-options, .confirm-options {
+    animation: fadeIn 0.3s ease-out;
+}
+
+.option-button {
+    background: linear-gradient(135deg, rgba(45, 110, 180, 0.5), rgba(30, 90, 150, 0.6));
+    border: 1px solid rgba(60, 130, 200, 0.5);
+    color: white;
+    font-weight: 500;
+    padding: 0.6rem 1.2rem;
+    border-radius: 1.5rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 6px rgba(30, 90, 150, 0.25);
+}
+
+.option-button:hover {
+    background: linear-gradient(135deg, rgba(55, 120, 190, 0.55), rgba(40, 100, 160, 0.65));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(40, 100, 170, 0.3);
+}
+
+.option-button:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 4px rgba(75, 180, 255, 0.2);
+}
+
+/* Gender Option Specific Styles - Updated for Emojis and Colors */
+.option-button[data-gender="hombre"] {
+    background: rgba(0, 122, 255, 0.2);
+    border-color: #007AFF; /* Color azul ya definido en main.js */
+}
+
+.option-button[data-gender="hombre"]:hover {
+    box-shadow: 0 0 15px rgba(0, 122, 255, 0.4);
+    background: rgba(0, 122, 255, 0.3);
+}
+
+.option-button[data-gender="mujer"] {
+    background: rgba(255, 45, 85, 0.2);
+    border-color: #FF2D55; /* Color rosado ya definido en main.js */
+}
+
+.option-button[data-gender="mujer"]:hover {
+    box-shadow: 0 0 15px rgba(255, 45, 85, 0.4);
+    background: rgba(255, 45, 85, 0.3);
+}
+
+/* Confirm Option Specific Styles - New styles for "Yes" and "No" buttons */
+.option-button[data-option-type-confirm="yes"] {
+    background-color: var(--color-yes-green); /* Verde de fondo */
+    border-color: var(--color-yes-green-darker); /* Borde verde más oscuro */
+    color: var(--text-primary); /* Texto blanco para mejor contraste */
+}
+
+.option-button[data-option-type-confirm="yes"]:hover {
+    box-shadow: 0 0 15px rgba(var(--color-yes-green-darker-rgb), 0.5); /* Sombra al hacer hover */
+    background-color: color-mix(in srgb, var(--color-yes-green), white 80%); /* Aclara un poco al hacer hover */
+}
+
+.option-button[data-option-type-confirm="no"] {
+    background-color: var(--color-no-red); /* Rojo de fondo */
+    border-color: var(--color-no-red-darker); /* Borde rojo más oscuro */
+    color: var(--text-primary); /* Texto blanco para mejor contraste */
+}
+
+.option-button[data-option-type-confirm="no"]:hover {
+    box-shadow: 0 0 15px rgba(var(--color-no-red-darker-rgb), 0.5); /* Sombra al hacer hover */
+    background-color: color-mix(in srgb, var(--color-no-red), white 80%); /* Aclara un poco al hacer hover */
+}
+
+
+/* Style for Emoji Span inside option button */
+.option-button span {
+    margin-right: 0.5rem; /* Espacio entre el emoji y el texto */
+    font-size: 1.2em; /* Ajusta el tamaño del emoji si es necesario */
+    line-height: 0; /* Alinea verticalmente el emoji */
+}
+
+
+/* Keyword Highlighting Styles */
+.highlight-cash, .keyword-efectivo { color: #00FF9D; font-weight: bold; }
+.highlight-debit, .keyword-debito { color: #007AFF; font-weight: bold; }
+.highlight-transfer, .keyword-transferencia { color: #FF9500; font-weight: bold; }
+
+
+/* Fade In Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .app-header {
+        padding: 0.75rem; /* Reduced header padding on smaller screens */
+    }
+
+    .header-text h1 {
+        font-size: 1.25rem; /* Reduced header font size on smaller screens */
+    }
+
+    .header-content {
+        gap: 0.75rem; /* Reduced header content gap on smaller screens */
+    }
+
+    .bot-avatar {
+        width: 35px; /* Reduced avatar size on smaller screens */
+        height: 35px;
+    }
+
+    .chat-messages {
+        padding: 0.75rem; /* Reduced chat messages padding on smaller screens */
+        gap: 0.5rem; /* Reduced chat messages gap on smaller screens */
+    }
+
+    .welcome-message {
+        padding: 1rem; /* Reduced welcome message padding on smaller screens */
+    }
+
+    .welcome-message h2 {
+        font-size: 2rem;
+    }
+
+    .welcome-message p {
+        font-size: 0.9rem; /* Reduced welcome message paragraph size */
+    }
+
+    .branch-selector h3 {
+        font-size: 1.1rem; /* Reduced branch selector heading size */
+        margin-bottom: 1rem; /* Reduced branch selector margin */
+    }
+
+    .branch-options {
+        gap: 0.5rem; /* Reduced branch options gap */
+    }
+
+    .branch-button {
+        width: 100%;
+        margin: 0.5rem 0;
+        padding: 1.2rem;
+    }
+
+    .floating-particle {
+        --size: 3px;
+        opacity: 0.2;
+    }
+}
+
+@media (max-width: 600px) {
+    .branch-options {
+        grid-template-columns: repeat(2, 1fr); /* Organiza en 2 columnas */
+        gap: 0.5rem;
+        padding: 0.5rem;
+    }
+    
+    .branch-button {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        border-radius: 12px;
+    }
+}
+
+/* Animations */
+@keyframes blink {
+    0%, 45%, 55%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.1); }
+}
+
+@keyframes talk {
+    0%, 100% { width: 20px; }
+    50% { width: 15px; }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
+    50% { transform: translateX(-50%) scale(1.2); opacity: 0.8; }
+}
+
+/* Añadir al inicio del CSS */
+@keyframes floating {
+    0%, 100% {
+        transform: translateY(0) rotate(-2deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(2deg);
+    }
+}
+
+/* Fondo de partículas animadas */
+.app-container::after {
+    content: '';
+    position: fixed;
+    top: -10%;
+    left: -10%;
+    width: 120vw;
+    height: 120vh;
+    background: 
+        radial-gradient(circle at 10% 20%, rgba(74, 144, 226, 0.15) 0%, transparent 60%),
+        radial-gradient(circle at 90% 80%, rgba(42, 108, 176, 0.15) 0%, transparent 60%);
+    z-index: 0;
+    animation: particleFlow 20s linear infinite;
+}
+
+@keyframes particleFlow {
+    0% { background-position: 0% 0%, 100% 100%; }
+    100% { background-position: 100% 100%, 0% 0%; }
+}
+
+/* Animación para las tarjetas de sucursal */
+.branch-button {
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.branch-button:hover {
+    transform: none;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Efecto parallax en el área de chat */
+.chat-messages {
+    transform: translateZ(0);
+    transition: transform 0.3s ease-out;
+}
+
+/* Animación del avatar del bot */
+.bot-avatar {
+    animation: 
+        floating 4s ease-in-out infinite,
+        robotBlink 5s ease infinite;
+}
+
+@keyframes robotBlink {
+    0%, 50%, 100% {
+        transform: scaleY(1);
+    }
+    5%, 45% {
+        transform: scaleY(0.1);
+    }
+}
+
+.bot-antenna::after {
+    animation: pulse 2s infinite, antennaGlow 1.5s ease-in-out infinite;
+}
+
+@keyframes antennaGlow {
+    0%, 100% { filter: drop-shadow(0 0 5px rgba(74, 144, 226, 0.5)); }
+    50% { filter: drop-shadow(0 0 10px rgba(74, 144, 226, 0.8)); }
+}
+
+/* Efecto de onda en el input */
+    .input-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.input-wrapper::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        transparent 25%,
+        rgba(74, 144, 226, 0.1) 50%,
+        transparent 75%
+    );
+    animation: waveFlow 3s infinite linear;
+}
+
+@keyframes waveFlow {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(100%); }
+}
+
+/* Animación de las SVGs del fondo */
+.app-container::before {
+    animation: bgFloat 30s infinite linear;
+}
+
+@keyframes bgFloat {
+    0% { transform: translate(0, 0) scale(1); opacity: 0.1; }
+    25% { transform: translate(5%, 2%) scale(1.05); opacity: 0.15; }
+    50% { transform: translate(0, 5%) scale(1.1); opacity: 0.2; }
+    75% { transform: translate(-5%, 2%) scale(1.05); opacity: 0.15; }
+    100% { transform: translate(0, 0) scale(1); opacity: 0.1; }
+}
+
+.particle {
+    position: fixed;
+    width: var(--size);
+    height: var(--size);
+    background: rgba(255, 255, 255, 0.4);
+    mix-blend-mode: screen;
+    animation-duration: 5s !important;
+    top: var(--y);
+    left: var(--x);
+    animation: particleMove var(--duration) var(--delay) infinite linear;
+    pointer-events: none;
+    z-index: 1;
+}
+
+@keyframes particleMove {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 0;
+    }
+    50% {
+        transform: translate(
+            calc(var(--mouse-x) * 100px), 
+            calc(var(--mouse-y) * 100px)
+        ) scale(1.2);
+        opacity: 0.6;
+    }
+    100% {
+        transform: translate(
+            calc(var(--mouse-x) * 200px), 
+            calc(var(--mouse-y) * 200px)
+        ) scale(0);
+        opacity: 0;
+    }
+}
+
+/* Añadir al final del archivo */
+@media (hover: none) {
+    /* Desactivar hover en dispositivos táctiles */
+    .branch-button:hover {
+        transform: none;
+        box-shadow: none;
+    }
+    
+    /* Mejorar feedback táctil */
+    .branch-button:active {
+        transform: scale(0.95);
+        transition: transform 0.1s;
+    }
+    
+    .action-button:active,
+    .send-button:active {
+        transform: scale(0.9);
+    }
+}
+
+/* Optimizar rendimiento de animaciones */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+.send-button {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: linear-gradient(135deg, #00C4FF, #0080FF);
+    border-radius: 50%;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 10px rgba(0, 150, 255, 0.4);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    z-index: 1000;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+}
+
+/* Crear un icono de flecha para el botón de enviar */
+.send-button::before {
+    content: '→';
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+/* Ocultar cualquier contenido existente del botón */
+.send-button span, 
+.send-button::after {
+    display: none !important;
+}
+
+/* Asegurar que el botón sea bien visible con hover */
+.send-button:hover {
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 3px 15px rgba(0, 150, 255, 0.6);
+    background: linear-gradient(135deg, #00E0FF, #0090FF);
+}
+
+/* Efecto activo al hacer clic */
+.send-button:active {
+    transform: translateY(-50%) scale(0.95);
+    box-shadow: 0 1px 5px rgba(0, 150, 255, 0.3);
+}
+
+/* Ajustar el ancho del campo de texto para dejar espacio al botón */
+.input-wrapper input {
+    width: calc(100% - 50px);
+    padding-right: 40px;
+}
+
+/* Asegurar que el input-wrapper muestre correctamente el botón */
+.input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    z-index: 150;
+}
+
+/* Ocultar input-actions original */
+.input-actions {
+    display: none !important;
+}
+
+/* Map Transition Styles */
+.map-transition {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #000;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0s linear 0.5s;
+}
+
+.map-transition img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.map-transition.active {
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.5s ease, visibility 0s linear 0s;
+}
+
+.map-transition.active img {
+    opacity: 1;
+}
+
+/* Footer Styles */
+footer {
+    background: var(--glass-bg);
+    padding: 1rem;
+    text-align: center;
+    border-top: 1px solid var(--glass-border);
+}
+
+footer p {
+    color: var(--text-secondary);
+    margin: 0;
+    font-size: 0.875rem;
+}
+
+/* Colores base por sucursal */
+.app-container {
+    background: #1a1a1a; /* Color base */
+}
+
+.app-container.santiago { 
+    background: linear-gradient(135deg, #8B0000 0%, #FF4444 100%); 
+}
+.app-container.serena { 
+    background: linear-gradient(135deg, #87CEEB 0%, #4682B4 100%); 
+}
+.app-container.copiapo { 
+    background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%); 
+}
+.app-container.rengo { 
+    background: linear-gradient(135deg, #FFFFFF 0%, #F0F0F0 100%); 
+}
+.app-container.andes { 
+    background: linear-gradient(135deg, #E0FFFF 0%, #AFEEEE 100%); 
+}
+.app-container.felipe { 
+    background: linear-gradient(135deg, #808080 0%, #A9A9A9 100%); 
+}
+.app-container.vallenar { 
+    background: linear-gradient(135deg, #FFB6C1 0%, #FF69B4 100%); 
+}
+
+/* Ajustar input para pantalla completa */
+.input-wrapper {
+    padding: 0 !important;
+}
+
+#userInput {
+    width: 100%;
+    padding: 1rem !important;
+    border-radius: 0 !important;
+    border: none !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Animaciones personalizadas */
+@keyframes moveTrain {
+    0% { background-position: 0 0, 0 0; }
+    100% { background-position: 100px 0, 100px 0; }
+}
+
+@keyframes waveMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 100px 100px; }
+}
+
+@keyframes sunRotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes mountainMove {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 50px; }
+}
+
+/* Ajustes para mejor visibilidad */
+.chat-container {
+    background: rgba(0, 0, 0, 0.6) !important;
+    backdrop-filter: blur(5px);
+}
+
+.bubbles-container {
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 2; /* Menor que los botones */
+    pointer-events: none;
+}
+
+.fish:hover {
+    transform: scale(1.1);
+    opacity: 1;
+}
+
+.floating-particle {
+    position: fixed;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+    animation: floatParticle var(--duration) var(--delay) infinite linear;
+    mix-blend-mode: screen;
+    opacity: 0.3;
+    z-index: 1;
+}
+
+@keyframes floatParticle {
+    0%, 100% {
+        transform: translate(calc(var(--x) + 0%), calc(var(--y) + 0%));
+        opacity: 0.3;
+    }
+    50% {
+        transform: translate(calc(var(--x) + 100%), calc(var(--y) + 50%));
+        opacity: 0.6;
+    }
+}
+
+.glow-effect {
+    position: absolute;
+    width: 150%;
+    height: 150%;
+    background: radial-gradient(circle, rgba(0,255,157,0.1) 0%, transparent 60%);
+    animation: glowPulse 4s ease infinite;
+    pointer-events: none;
+    z-index: 0;
+}
+
+@keyframes glowPulse {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.2); opacity: 0.6; }
+}
+
+/* Nuevo diseño más limpio */
+.branch-selector-container {
+    text-align: center;
+    padding: 2rem 1rem;
+    margin-bottom: 1rem;
+}
+
+.branch-title {
+    font-size: 2.2rem;
+    font-weight: 600;
+    color: var(--accent-color);
+    margin: 0;
+    text-shadow: 0 2px 8px rgba(0, 255, 157, 0.2);
+}
+
+.branch-subtitle {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin: 1rem 0 2rem;
+}
+
+.branch-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.5rem;
+    padding: 0 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.branch-button {
+    background: rgba(255, 255, 255, 0.1);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    padding: 1rem;
+    transition: all 0.3s ease;
+    color: var(--text-primary);
+    font-size: 1rem;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.branch-button:hover {
+    background: rgba(0, 255, 157, 0.2);
+    border-color: var(--accent-color);
+    transform: none;
+    box-shadow: 0 4px 15px rgba(0, 255, 157, 0.3);
+}
+
+.branch-button span {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Animaciones sutiles */
+@keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.main-title-container {
+    animation: fadeSlideUp 0.8s ease-out;
+}
+
+.branch-selector {
+    animation: fadeSlideUp 0.8s ease-out 0.2s both;
+}
+
+/* Importar fuentes de Google */
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Poppins:wght@400;600&display=swap');
+
+.app-view {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.app-view[style*="display: none"] {
+    opacity: 0;
+    transform: translateY(20px);
+    pointer-events: none;
+}
+
+.chat-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(0,0,0,0.3);
+}
+
+.back-button {
+    background: none;
+    border: none;
+    color: var(--accent-color);
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+}
+
+.branch-title {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+/* Asegurar que la interfaz de chat ocupe todo el espacio */
+#chat-interface {
+    display: flex !important;
+    flex-direction: column;
+    flex: 1;
+    position: relative;
+    z-index: 1000;
+    height: calc(100vh - 60px); /* Altura total menos el header */
+    background: rgba(0, 0, 0, 0.3);
+}
+
+/* Mejorar visibilidad del botón volver */
+.back-button {
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+    padding: 0.8rem 1.2rem;
+    transition: background 0.3s ease;
+}
+
+.back-button:hover {
+    background: rgba(0, 255, 157, 0.1);
+}
+
+/* Colores del botón enviar por sucursal */
+.app-container.santiago .send-button {
+    background: var(--santiago-color) !important;
+}
+
+.app-container.serena .send-button {
+    background: var(--serena-color) !important;
+}
+
+.app-container.copiapo .send-button {
+    background: var(--copiapo-color) !important;
+}
+
+.app-container.rengo .send-button {
+    background: var(--rengo-color) !important;
+    color: #333 !important;
+}
+
+.app-container.andes .send-button {
+    background: var(--andes-color) !important;
+}
+
+.app-container.felipe .send-button {
+    background: var(--felipe-color) !important;
+}
+
+.app-container.vallenar .send-button {
+    background: var(--vallenar-color) !important;
+}
+
+@keyframes botEntrance {
+    0% {
+        transform: translateY(50px) rotate(15deg) scale(0.5);
+        opacity: 0;
+        filter: blur(8px) hue-rotate(180deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(-10deg) scale(1.1);
+        opacity: 1;
+        filter: blur(0) hue-rotate(0);
+    }
+    100% {
+        transform: translateY(0) rotate(0) scale(1);
+        filter: drop-shadow(0 8px 20px rgba(0,255,157,0.3));
+    }
+}
+
+/* Nueva animación al seleccionar sucursal */
+@keyframes branchSelected {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(0.95); opacity: 0.8; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Animación de transición al chat */
+@keyframes chatEntrance {
+    0% { transform: translateY(100px); opacity: 0; }
+    100% { transform: translateY(0); opacity: 1; }
+}
+
+/* Animaciones para mensajes */
+@keyframes messageSlideIn {
+    from { transform: translateX(30px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+.message {
+    animation: messageSlideIn 0.3s var(--easing-smooth) both;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.message:hover {
+    transform: translateX(5px);
+    box-shadow: 0 4px 15px rgba(0,255,157,0.1);
+}
+
+/* Animación de carga mejorada */
+@keyframes loadingPulse {
+    0%, 100% { transform: scale(0.95); opacity: 0.7; }
+    50% { transform: scale(1.1); opacity: 1; }
+}
+
+.loading-indicator {
+    animation: loadingPulse 1.2s var(--easing-bounce) infinite;
+}
+
+/* Animación de entrada del input */
+@keyframes inputAppear {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.input-area {
+    animation: inputAppear 0.5s var(--easing-bounce) 0.3s both;
+}
+
+/* Efecto hover del botón enviar */
+.send-button {
+    transition: 
+        transform 0.3s var(--easing-bounce),
+        background 0.2s ease;
+}
+
+.send-button:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+/* Eliminar scroll en transición de mapa */
+.map-transition {
+    overflow: hidden !important;
+}
+
+/* --- Animaciones adicionales --- */
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+/* Aplica parpadeo a los ojos del robot */
+.robot-eyes .eye {
+  animation: blink 3s infinite;
+}
+
+@keyframes swing {
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+/* Anima la antena del robot */
+.bot-antenna {
+  animation: swing 2s infinite ease-in-out;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0); }
+}
+
+/* Aplica una animación de flotación a la sección del robot */
+.welcome-robot {
+  animation: float 4s infinite ease-in-out;
+}
+
+@keyframes fadeIn {
+  0% { opacity: 0; transform: translateY(-20px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* Aplica un fade in suave al título del header */
+.header-text h1 {
+  animation: fadeIn 1s ease-out;
+}
+
+@keyframes buttonPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Aplica una pulsación a los botones de sucursal */
+.branch-button {
+  animation: none;
+}
+
+@keyframes slideIn {
+  0% { transform: translateX(-100%); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+
+/* --- Additional Interface Improvements --- */
+
+/* Efecto pulsante para el status dot */
+.status-dot {
+    animation: pulseDot 1.5s infinite ease-in-out;
+}
+
+@keyframes pulseDot {
+    0% { 
+        transform: scale(1); 
+        box-shadow: 0 0 4px var(--status-dot-active);
+    }
+    50% { 
+        transform: scale(1.2); 
+        box-shadow: 0 0 12px var(--status-dot-active); 
+    }
+    100% { 
+        transform: scale(1); 
+        box-shadow: 0 0 4px var(--status-dot-active);
+    }
+}
+
+/* Mejoras en los botones de sucursal: degradado sutil y efectos hover */
+.branch-button {
+    background: linear-gradient(135deg, rgba(255,255,255,0.05), transparent);
+    border: 2px solid var(--glass-border);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.branch-button:hover {
+    background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+    transform: none;
+    box-shadow: 0 4px 15px rgba(0, 255, 157, 0.3);
+}
+
+/* Ajustes responsivos para pantallas muy pequeñas */
+@media (max-width: 480px) {
+    .branch-button {
+        font-size: 0.8rem;
+        padding: 0.5rem;
+    }
+    .header-text h1 {
+        font-size: 1.2rem;
+    }
+}
+
+/* Transición suave del fondo del contenedor principal */
+.app-container {
+    transition: background 1s ease-in-out;
+}
+
+/* Sección opcional: Preloader overlay */
+.preloader {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--accent-color);
+    font-size: 1.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease, visibility 0.5s;
+    z-index: 200;
+}
+
+.preloader.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* --- Innovative Effects: Floating Particles and Interactive Ripple --- */
+
+/* Fondo interactivo de partículas */
+.floating-particles-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.floating-particle {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    animation: floatParticle 8s linear infinite;
+    will-change: transform, opacity;
+}
+
+@keyframes floatParticle {
+    0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+    50% { opacity: 1; }
+    100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+}
+}
+
+/* Efecto ripple en los botones de sucursal */
+.branch-button {
+    position: relative;
+    overflow: hidden;
+}
+
+.branch-button::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: radial-gradient(circle, rgba(255,255,255,0.5) 10%, transparent 10.01%);
+    background-repeat: no-repeat;
+    background-position: 50%;
+    transform: scale(10,10);
+    opacity: 0;
+    transition: transform 0.5s, opacity 1s;
+    pointer-events: none;
+}
+
+.branch-button:active::after {
+    transform: scale(0,0);
+    opacity: 0.3;
+    transition: 0s;
+}
+
+/* Fondo degradado animado para el header */
+.header-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background: linear-gradient(45deg, #052a4f, #008895, #00FF9D);
+    background-size: 300% 300%;
+    animation: gradientShift 15s ease infinite;
+    opacity: 0.3;
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* --- Confetti Effect --- */
+.confetti {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 400;
+}
+
+@keyframes confettiFall {
+    0% { transform: translateY(-100%); opacity: 1; }
+    100% { transform: translateY(100vh); opacity: 0; }
+}
+
+.confetti-piece {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: var(--accent-color);
+    opacity: 0.8;
+    animation: confettiFall 3s linear infinite;
+}
+
+/* Asegurar que el botón de enviar esté visible y clicable en todas las sucursales */
+.send-button {
+    z-index: 100;
+    position: relative;
+    pointer-events: auto !important;
+}
+
+/* Evitar que elementos de fondo de La Serena interfieran */
+.app-container.serena .bubbles-container,
+.app-container.serena .fish {
+    pointer-events: none !important;
+    z-index: 1;
+}
+
+/* Asegurar que el área de entrada sea visible en todas las sucursales */
+.input-area {
+    z-index: 100;
+    background: rgba(25, 35, 45, 0.85);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-top: 1px solid rgba(120, 200, 255, 0.1);
+    display: flex;
+    flex-direction: column;
+    padding: 15px 20px;
+}
+
+/* Estilos para asegurar visibilidad del botón enviar */
+.send-button span {
+    z-index: 100;
+    position: relative;
+}
+
+/* Ocultar la barra de desplazamiento pero mantener la funcionalidad */
+#chatMessages::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
+#chatMessages {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE/Edge */
+    overflow-y: auto;
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    padding-right: 5px; /* Compensar espacio */
+}
+
+/* Mantener el desplazamiento táctil en Android */
+#chatMessages {
+    touch-action: pan-y;
+    -webkit-overflow-scrolling: touch;
+    padding-right: 5px; /* Agregar un pequeño margen para compensar la barra eliminada */
+}
+
+/* Estilos mejorados para el contenedor del chat */
+.messages-container {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Mejorar visibilidad del texto durante la escritura */
+.input-wrapper input {
+    color: #FFFFFF !important;
+    background-color: rgba(0, 40, 80, 0.4) !important;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5) !important;
+    font-weight: 500 !important;
+    padding: 8px 15px !important;
+    border-radius: 12px !important;
+    width: calc(100% - 70px) !important;
+    height: 42px !important;
+    margin-right: 10px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    z-index: 2000 !important;
+}
+
+/* Mejorar el fondo del área de entrada */
+.input-wrapper {
+    background: rgba(30, 60, 90, 0.5) !important;
+    border: 1px solid rgba(100, 180, 255, 0.3) !important;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2) !important;
+    padding: 5px !important;
+}
+
+/* Asegurar que el placeholder tenga suficiente contraste */
+.input-wrapper input::placeholder {
+    color: rgba(200, 220, 255, 0.7) !important;
+    opacity: 0.7 !important;
+}
+
+/* Mejorar el contraste del área de entrada con el fondo */
+.input-area {
+    background-color: rgba(20, 40, 60, 0.9) !important;
+    border-top: 1px solid rgba(100, 150, 200, 0.3) !important;
+    padding: 10px 15px !important;
+}
+
+/* Mejorar visibilidad del texto mientras se escribe */
+.input-wrapper input:focus {
+    outline: 2px solid rgba(100, 180, 255, 0.5) !important;
+    background-color: rgba(0, 50, 100, 0.5) !important;
+}
+
+/* Eliminar animaciones anteriores */
+.bot-header, .bot-logo, .bot-title {
+    animation: none !important;
+}
+
+/* Nueva animación para Botsito */
+.bot-title, .bot-name {
+    position: relative;
+    display: inline-block;
+    background: linear-gradient(45deg, #00a1ff, #00ff88, #00a1ff);
+    background-size: 200% 200%;
+    color: transparent !important;
+    background-clip: text !important;
+    -webkit-background-clip: text !important;
+    text-shadow: 0 2px 10px rgba(0, 170, 255, 0.3);
+    animation: gradientText 3s ease infinite;
+    font-weight: bold !important;
+}
+
+/* Efecto de pulso alrededor del texto */
+.bot-title::after, .bot-name::after {
+    content: '';
+    position: absolute;
+    top: -5px;
+    left: -5px;
+    right: -5px;
+    bottom: -5px;
+    background: radial-gradient(circle, rgba(0, 160, 255, 0.3) 0%, rgba(0, 160, 255, 0) 70%);
+    border-radius: 8px;
+    z-index: -1;
+    animation: pulse 2s infinite;
+}
+
+/* Estado de "En línea" con animación */
+.bot-status {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 5px;
+}
+
+.bot-status::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: #00ff88;
+    border-radius: 50%;
+    margin-right: 5px;
+    animation: statusPulse 2s infinite;
+    box-shadow: 0 0 8px #00ff88;
+}
+
+/* Animaciones */
+@keyframes gradientText {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@keyframes pulse {
+    0% { transform: scale(0.95); opacity: 0.7; }
+    50% { transform: scale(1.05); opacity: 0.9; }
+    100% { transform: scale(0.95); opacity: 0.7; }
+}
+
+@keyframes statusPulse {
+    0% { opacity: 0.6; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+    100% { opacity: 0.6; transform: scale(0.8); }
+}
+
+#sendEmailButton {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 20px;
+    background-color: #00a1ff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    z-index: 1000;
+}

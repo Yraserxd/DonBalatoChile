@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#1a1a1a">
+    <title>Botsito - Asistente IA</title>
+    <link rel="stylesheet" href="assets/app.css">
+    <script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init("Fc_wCt3mdIkPX8k8Y"); // Reemplaza YOUR_PUBLIC_KEY con tu Public Key de EmailJS
+        })();
+    </script>
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="map-transition">
+            <img id="map-image" src="" alt="Mapa de la sucursal">
+        </div>
+        <!-- Burbujas de fondo -->
+        <div class="bubbles-container">
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+            <div class="bubble"></div>
+        </div>
+        <header class="app-header">
+            <div class="header-content">
+                <div class="glow-effect"></div>
+                <div class="bot-avatar">
+                    <div class="bot-face">
+                        <div class="bot-eyes">
+                            <div class="eye left"></div>
+                            <div class="eye right"></div>
+                        </div>
+                        <div class="bot-antenna"></div>
+                    </div>
+                </div>
+                <div class="header-text">
+                    <h1>Botsito</h1>
+                    <div class="status">
+                        <span class="status-dot"></span>
+                        <span>Bot Activo</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="chat-content-container">
+            <main class="chat-messages" id="chatMessages">
+                <div class="welcome-message">
+                    <div class="welcome-robot">
+                        <div class="robot-body">
+                            <div class="robot-head">
+                                <div class="robot-eyes">
+                                    <div class="eye"></div>
+                                    <div class="eye"></div>
+                                </div>
+                                <div class="robot-mouth"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="main-title-container">
+                        <h2 class="branch-title">Selecciona tu sucursal</h2>
+                        <p class="branch-subtitle">¿En qué sucursal estás trabajando hoy? 🏢</p>
+                    </div>
+                    <section class="branch-selector">
+                        <div class="branch-options">
+                            <button class="branch-button santiago" data-branch="santiago">
+                                <span>🚇</span>
+                                <span class="branch-name">Santiago</span>
+                            </button>
+                            <button class="branch-button serena" data-branch="serena">
+                                <span>🏖️ </span>
+                                <span class="branch-name">La Serena</span>
+                            </button>
+                            <button class="branch-button copiapo" data-branch="copiapo">
+                                <span>🌞</span>
+                                <span class="branch-name">Copiapó</span>
+                            </button>
+                            <button class="branch-button rengo" data-branch="rengo">
+                                <span>🍇</span>
+                                <span class="branch-name">Rengo</span>
+                            </button>
+                            <button class="branch-button andes" data-branch="andes">
+                                <span>⛷️</span>
+                                <span class="branch-name">Los Andes</span>
+                            </button>
+                            <button class="branch-button felipe" data-branch="felipe">
+                                <span>🚜</span>
+                                <span class="branch-name">San Felipe</span>
+                            </button>
+                            <button class="branch-button vallenar" data-branch="vallenar">
+                                <span>⛏️</span>
+                                <span class="branch-name">Vallenar</span>
+                            </button>
+                        </div>
+                    </section>
+                    <!-- Burbujas para La Serena -->
+                    <div class="bubble"></div>
+                    <div class="bubble"></div>
+                    <div class="bubble"></div>
+                    <div class="bubble"></div>
+                    <div class="bubble"></div>
+                </div>
+            </main>
+            <div class="input-area" style="display: none;">
+                <div class="input-wrapper">
+                    <input type="text" id="userInput" placeholder="Escribe un mensaje..." autocomplete="off">
+                    <div class="input-actions">
+                        <button id="sendMessage" class="send-button ripple" aria-label="Enviar mensaje">
+                            <span>📨</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Mi Sitio Web</p>
+    </footer>
+
+    <script src="assets/main.js"></script>
+
+    <lottie-player 
+        src="https://assets1.lottiefiles.com/packages/lf20_yslnqu3y.json" 
+        background="transparent" 
+        speed="1" 
+        style="position: fixed; width: 150%; height: 150%; opacity: 0.3; z-index: 0;"
+        loop 
+        autoplay>
+    </lottie-player>
+
+</body>
+</html>
